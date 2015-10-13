@@ -1,5 +1,5 @@
-;; -*- coding: utf-8 -*-
 
+;; -*- coding: utf-8 -*-
 (setq emacs-load-start-time (current-time))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp"))
 
@@ -22,6 +22,11 @@
                     (< (string-to-number (nth 1 (split-string (shell-command-to-string "sysctl hw.physmem")))) 4000000000))
                    (*linux* nil)
                    (t nil)))
+
+(setq mac-option-key-is-meta nil)
+(setq mac-command-key-is-meta t)
+(setq mac-command-modifier 'meta)
+(setq mac-option-modifier nil)
 
 ;;----------------------------------------------------------------------------
 ;; Less GC, more memory
@@ -95,7 +100,7 @@ We increase this to 16MB by `(my-optimize-gc 16 0.5)` "
 (require 'init-moz)
 (require 'init-gtags)
 ;; use evil mode (vi key binding)
-(require 'init-evil)
+;;(require 'init-evil)
 (require 'init-sh)
 (require 'init-ctags)
 (require 'init-bbdb)
@@ -137,6 +142,10 @@ We increase this to 16MB by `(my-optimize-gc 16 0.5)` "
 (idle-require-mode 1) ;; starts loading
 ;; }}
 
+(global-set-key (kbd "<backtab>") #'(lambda ()
+    (interactive)
+    (switch-to-buffer (other-buffer (current-buffer) 1))))
+
 (when (require 'time-date nil t)
    (message "Emacs startup time: %d seconds."
     (time-to-seconds (time-since emacs-load-start-time))))
@@ -167,3 +176,4 @@ We increase this to 16MB by `(my-optimize-gc 16 0.5)` "
 ;;; no-byte-compile: t
 ;;; End:
 (put 'erase-buffer 'disabled nil)
+
